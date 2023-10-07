@@ -48,7 +48,7 @@ const LoginForm = () => {
     }
   });
 
-  const onSubmit = useCallback(async (data) => {}, []);
+  const onSubmit = useCallback(async (data: Pick<User, 'email'>) => {}, []);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

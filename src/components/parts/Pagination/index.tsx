@@ -51,7 +51,7 @@ const Pagination: React.FC<PaginationProps> = ({
       <select
         className="select join-item select-bordered w-full max-w-xs border-none"
         value={currentPage}
-        onChange={onChangePage}
+        onChange={(e) => onChangePage(+e.target.value)}
         title="Current page"
       >
         {Array.from({ length: maxPage }, (_, i) => (

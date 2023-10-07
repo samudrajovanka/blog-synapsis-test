@@ -17,7 +17,7 @@ const BlogDetailPage = async ({ params, searchParams }: {
 
   const queryClient = getQueryClient();
 
-  await queryClient.setQueryData(getPostKey(params.id), post);
+  await queryClient.setQueryData(getPostKey(+params.id), post);
   await queryClient.prefetchQuery(getUserKey(post.data.user_id), () => getUser(post.data.user_id));
 
   const commentFilters = {
@@ -27,8 +27,8 @@ const BlogDetailPage = async ({ params, searchParams }: {
   };
 
   await queryClient.prefetchQuery(
-    getPostCommentsKey(params.id, { filters: commentFilters }),
-    () => getPostComments(params.id, commentFilters)
+    getPostCommentsKey(+params.id, { filters: commentFilters }),
+    () => getPostComments(+params.id, commentFilters)
   );
 
   const dehydratedState = dehydrate(queryClient);

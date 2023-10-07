@@ -17,7 +17,7 @@ const generateMetadata = (metadata?: Metadata, options?: GenerateMetadataOptions
     ...metadata,
     description,
     title,
-    metadataBase: new URL(config.appUrl),
+    metadataBase: new URL(config.appUrl as string),
     openGraph: {
       title,
       description,

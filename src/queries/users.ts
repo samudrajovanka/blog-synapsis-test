@@ -7,18 +7,23 @@ export const getUsersKey = (options?: {
 }) => ['users', options?.filters];
 
 export const useUsers = (options?: {
-  queryOptions?: UseQueryOptions<{ response: Response, data: User[] }>,
   filters?: GetUserFilters
+  queryOptions?: UseQueryOptions<{ response: {
+    headers: Headers;
+  }, data: User[] }>,
 }) => useQuery({
   queryKey: getUsersKey(options),
   queryFn: () => getUsers(options?.filters),
+  keepPreviousData: true,
   ...options?.queryOptions,
 });
 
 export const getUserKey = (id: number) => ['user', id];
 
 export const useUser = (id: number, options?: {
-  queryOptions?: UseQueryOptions<{ response: Response, data: User }>,
+  queryOptions?: UseQueryOptions<{ response: {
+    headers: Headers;
+  }, data: User }>,
 }) => useQuery({
   queryKey: getUserKey(id),
   queryFn: () => getUser(id),

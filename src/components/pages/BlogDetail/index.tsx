@@ -51,7 +51,7 @@ const BlogDetail = () => {
 
       <CommentList
         comments={commentsData?.data as Comment[]}
-        headers={headers as unknown as string[][]}
+        headers={headers ? headers as unknown as string[][] : []}
         onChangePage={handleChagePage}
       />
     </Container>

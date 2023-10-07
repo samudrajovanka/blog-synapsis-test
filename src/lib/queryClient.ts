@@ -13,7 +13,7 @@ export const queryClientConfig: QueryClientConfig = {
     },
     mutations: {
       onError: (error) => {
-        toast.error(error.message);
+        toast.error((error as { message: string }).message);
       }
     }
   }

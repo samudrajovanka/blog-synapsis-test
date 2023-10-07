@@ -6,7 +6,9 @@ export const getPostsKey = (options: { filters?: PostsFilters }) => ['posts', op
 
 export const usePosts = (options: {
   filters?: PostsFilters,
-  queryOptions?: UseQueryOptions<{ response: Response, data: Post[] }> 
+  queryOptions?: UseQueryOptions<{ response: {
+    headers: Headers;
+  }, data: Post[] }> 
 }) => useQuery({
   queryKey: getPostsKey(options),
   queryFn: () => getPosts(options?.filters),
@@ -21,7 +23,7 @@ export const usePost = (id: number) => useQuery({
   queryFn: () => getPost(id),
 });
 
-export const getPostCommentsKey = (id: number, options: {
+export const getPostCommentsKey = (id: number, options?: {
   filters?: PostCommentsFilters
 }) => ['post-comments', id, options?.filters];
 

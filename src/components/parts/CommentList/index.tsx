@@ -28,7 +28,7 @@ const CommentList: React.FC<CommentListProps> = ({
       ) : null}
 
       <section className="flex flex-col gap-1">
-        {comments.length > 0 ? (
+        {comments?.length > 0 ? (
           <>
             {comments.map((comment, index) => (
               <div key={comment.id}>

@@ -37,18 +37,18 @@ const CommentForm: React.FC<CommentFormProps> = ({ className }) => {
 
       toast.success('Comment added successfully');
 
-      queryClient.invalidateQueries(getPostCommentsKey(params.id));
+      queryClient.invalidateQueries(getPostCommentsKey(+(params.id as string)));
       router.refresh();
     }
   });
 
-  const onSubmit = useCallback((data) => {
+  const onSubmit = useCallback((data: Pick<Comment, 'body'>) => {
     addCommentMutation.mutate({
       body: data.body,
-      postId: params.id,
+      postId: +(params.id as string),
       user: {
-        email: user?.email,
-        name: user?.name,
+        email: user?.email as string,
+        name: user?.name as string,
       }
     });
   }, [addCommentMutation, params.id, user?.email, user?.name]);

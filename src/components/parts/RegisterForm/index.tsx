@@ -35,11 +35,9 @@ const RegisterForm = () => {
 
       router.push('/login');
     }
-  }, [router]);
+  });
 
-  const onSubmit = useCallback((data) => {
-    console.log(data);
-
+  const onSubmit = useCallback((data: Omit<User, 'id'>) => {
     if (data.gender === 'default') {
       setError('gender', {
         message: 'Gender is required'

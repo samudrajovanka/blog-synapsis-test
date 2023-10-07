@@ -3,7 +3,7 @@ import { Query } from './fetcher';
 export const combineSearchParams = (searchParams: string | URLSearchParams, newParams: Query) => {
   const params = new URLSearchParams(searchParams);
   Object.keys(newParams).forEach((key) => {
-    params.append(key, newParams[key]);
+    params.append(key, newParams[key] as string);
   });
 
   return params;

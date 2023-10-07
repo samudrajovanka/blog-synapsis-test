@@ -1,7 +1,8 @@
 import fetcher from '@/lib/fetcher';
 import { PageFilter } from './posts';
+import { User } from '@/types/user';
 
-export const createUser = async (user: User) => {
+export const createUser = async (user: Omit<User, 'id'>) => {
   const response = await fetcher({
     url: '/users',
     method: 'POST',
@@ -16,8 +17,8 @@ export type GetUserFilters = PageFilter & {
   email?: string;
 };
 
-export const getUsers = async (filters: GetUserFilters) => {
-  const response = await fetcher({
+export const getUsers = async (filters?: GetUserFilters) => {
+  const response = await fetcher<User[]>({
     url: '/users',
     query: filters
   });
@@ -26,7 +27,7 @@ export const getUsers = async (filters: GetUserFilters) => {
 };
 
 export const getUser = async (id: number) => {
-  const response = await fetcher({
+  const response = await fetcher<User>({
     url: `/users/${id}`,
   });
 

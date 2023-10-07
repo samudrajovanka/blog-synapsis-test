@@ -1,8 +1,10 @@
 export type ButtonProps = React.PropsWithChildren & {
-  type: 'button' | 'submit';
-  className: string
+  type?: 'button' | 'submit';
+  className?: string
   href?: string;
   disabled?: boolean;
   isLoading?: boolean;
   loadingText?: string;
+  title?: string;
+  onClick?: () => void;
 };

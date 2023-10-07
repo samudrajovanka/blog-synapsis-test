@@ -12,7 +12,7 @@ const ReactQueryDevtoolsProduction = dynamic(() =>
   import('@tanstack/react-query-devtools').then((mod) => mod.ReactQueryDevtools)
 );
 
-const Providers: React.FC<React.PropsWithChildren> = ({ children }) => {
+const Providers = ({ children }) => {
   const [showDevtools, setShowDevtools] = useState(false);
   const [queryClient] = useState(() => new QueryClient(queryClientConfig));
 

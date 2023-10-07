@@ -1,8 +1,6 @@
 import { getCookie } from '@/lib/cookies';
 
-import { ACCESS_TOKEN_KEY } from './constants/storageKey';
-
-export type Query = Record<string, string | number | string[] | number[]>;
+export type Query = Record<string, string | number>;
 
 const generateQuery = (query: Query) => {
   const queryKeys = Object.keys(query);
@@ -10,13 +8,6 @@ const generateQuery = (query: Query) => {
 
   const queryValues = queryKeys.map((key) => {
     if (!query[key]) return null;
-
-    if (Array.isArray(query[key])) {
-      const arrayValueQuery: string[] = query[key];
-      if (arrayValueQuery.length === 0) return null;
-
-      return arrayValueQuery.map((value) => `${key}=${value}`).join('&');
-    }
 
     return `${key}=${query[key]}`;
   });
@@ -40,14 +31,21 @@ export const parseURL = (url: string, query?: Query) => {
 type FetcherOptions = {
   url: string;
   query?: Query;
+  options?: {
+    isFormData?: boolean;
+  }
 } & RequestInit;
 
-type Fetcher = <SuccessResponse>(options: FetcherOptions) => Promise<{ response: Response, data: SuccessResponse }>;
+type Fetcher = <SuccessResponse>(options: FetcherOptions) => Promise<{ response: {
+  headers: Headers;
+}, data: SuccessResponse }>;
 
-const fetcher: Fetcher = ({ method = 'GET', ...args }) => {
+const fetcher = <SuccessResponse>({ method = 'GET', ...args }: FetcherOptions) => {
   const accessToken = process.env.NEXT_PUBLIC_GOREST_ACCESS_TOKEN;
 
-  const callbackPromise = async (resolve, reject) => {
+  return new Promise<{ response: {
+    headers: Headers;
+  }, data: SuccessResponse }>(async (resolve, reject) => {
     const finalUrl = `${process.env.NEXT_PUBLIC_GOREST_API_URL}${args.url}`;
 
     const response = await fetch(parseURL(finalUrl, args?.query), {
@@ -56,7 +54,7 @@ const fetcher: Fetcher = ({ method = 'GET', ...args }) => {
         authorization: accessToken ? `Bearer ${accessToken}` : undefined,
         ...(!args?.options?.isFormData && { 'Content-Type': 'application/json' }),
         ...args?.headers
-      },
+      } as HeadersInit,
       cache: args?.cache ?? args?.next ? undefined : 'no-store',
       ...args
     });
@@ -75,9 +73,7 @@ const fetcher: Fetcher = ({ method = 'GET', ...args }) => {
       },
       data: result
     });
-  };
-
-  return new Promise(callbackPromise);
+  });
 };
 
 export default fetcher;
