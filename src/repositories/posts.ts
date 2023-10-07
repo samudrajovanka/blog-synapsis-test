@@ -55,3 +55,19 @@ export const addComment = async (data: {
 
   return response;
 };
+
+export const createBlog = async (userId: number, data: {
+  title: string,
+  body: string
+}) => {
+  const response = await fetcher<Post>({
+    url: `/users/${userId}/posts`,
+    method: 'POST',
+    body: JSON.stringify({
+      title: data.title,
+      body: data.body,
+    })
+  });
+
+  return response;
+}

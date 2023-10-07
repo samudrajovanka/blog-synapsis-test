@@ -50,7 +50,7 @@ const Navbar = () => {
   }, [router]);
 
   return (
-    <nav className="bg-neutral py-5">
+    <nav className="bg-neutral py-5 sticky top-0 z-[50]">
       <Container className="flex justify-between items-center">
         <ul className="flex items-center gap-5">
           {MENU.map((item) => (
